@@ -13,9 +13,30 @@ import six
 from ...utils.tests import dryrun
 
 from ...explainer import GradientExplainer
+from ...explainer import DeConvNetExplainer
+from ...explainer import GuidedBackpropExplainer
+from ...explainer import AlternateGradientExplainer
 
 
 class TestGradientExplainer(dryrun.TestCase):
 
     def _method(self, output_layer):
         return GradientExplainer(output_layer)
+
+
+class TestDeConvNetExplainer(dryrun.TestCase):
+
+    def _method(self, output_layer):
+        return DeConvNetExplainer(output_layer)
+
+
+class TestGuidedBackpropExplainer(dryrun.TestCase):
+
+    def _method(self, output_layer):
+        return GuidedBackpropExplainer(output_layer)
+
+
+class TestAlternateGradientExplainer(dryrun.TestCase):
+
+    def _method(self, output_layer):
+        return AlternateGradientExplainer(output_layer)

@@ -28,21 +28,17 @@ class TestCase(unittest.TestCase):
     and executed with random inputs.
     """
 
-    def _method(self, network):
+    def _method(self, output_layer):
         raise NotImplementedError("Set in subclass.")
 
     def _apply_test(self, method, network):
-        # Apply method.
-        network_transformed = method(network)
-        # Check shapes. Created network should map back to input shape.
-        shape = L.get_output_shape(network_transformed)
-        self.assertEqual(tuple(shape), tuple(network["input_shape"]))
-        # Compile.
-        f_symbolic = L.get_output(network_transformed)
-        f = theano.function([network["input_var"]], f_symbolic)
+        # Get explainer.
+        explainer = method(network["out"])
         # Dryrun.
         x = np.random.rand(1, *(network["input_shape"][1:]))
-        f(x)
+        explanation = explainer.explain(x)
+        self.assertEqual(tuple(explanation.shape[1:]),
+                         tuple(network["input_shape"][1:]))
         pass
 
     def test_dryrun(self):

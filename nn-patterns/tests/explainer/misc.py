@@ -10,18 +10,19 @@ import six
 # End: Python 2/3 compatability header small
 
 
-from ....utils.tests import dryrun
+from ...utils.tests import dryrun
+
+from ...explainer import InputExplainer
+from ...explainer import RandomExplainer
 
 
-class TestDryRunTestCase(dryrun.TestCase):
-    """
-    Sanity test for the TestCase.
-    """
+class TestInputExplainer(dryrun.TestCase):
 
     def _method(self, output_layer):
+        return InputExplainer(output_layer)
 
-        class TestExplainer(object):
-            def explain(self, X):
-                return X
 
-        return TestExplainer()
+class TestRandomExplainer(dryrun.TestCase):
+
+    def _method(self, output_layer):
+        return RandomExplainer(output_layer)

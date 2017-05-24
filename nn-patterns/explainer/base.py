@@ -11,10 +11,12 @@ import six
 
 
 import lasagne.layers
+import lasagne.nonlinearities
+import numpy as np
 import theano
 
 
-__all__ = ["BaseExplainer"]
+__all__ = ["BaseExplainer", "BaseRelevanceExplainer"]
 
 
 def __check_cpu_flaw__():
@@ -46,7 +48,7 @@ class BaseExplainer(object):
     def _init_explain_function(self, patterns,**kwargs):
         raise NotImplementedError("Has to be implemented by the subclass")
 
-    def explain(self, X, target, **kwargs):
+    def explain(self, X, target=None, **kwargs):
         raise NotImplementedError("Has to be implemented by the subclass")
 
     def get_name(self):
@@ -54,3 +56,46 @@ class BaseExplainer(object):
 
     def show_as_rgb(self):
         return True
+
+
+class BaseRelevanceExplainer(BaseExplainer):
+
+    def __init__(self, *args, **kwargs):
+        super(BaseRelevanceExplainer, self).__init__(*args, **kwargs)
+        self._init_relevance_function()
+        pass
+
+    def _init_relevance_function(self):
+        if(hasattr(self.output_layer,'nonlinearity') and
+           self.output_layer.nonlinearity == lasagne.nonlinearities.softmax):
+            # Ignore softmax.
+            output_nonlinearity = self.output_layer.nonlinearity
+            self.output_layer.nonlinearity = lambda x:x
+            output = lasagne.layers.get_output(self.output_layer,
+                                               deterministic=True)
+            self.output_layer.nonlinearity = output_nonlinearity
+        else:
+            output = lasagne.layers.get_output(self.output_layer,
+                                               deterministic=True)
+
+        self.relevance_function = theano.function(
+            inputs=[self.input_layer.input_var], outputs=output)
+        pass
+
+    def _get_relevance_values(self, X, target):
+        if target == 'max_output' or target == 'max_output_as_one':
+            predictions = self.relevance_function(X)
+            argmax = predictions.argmax(axis=1)
+            relevance_values = np.zeros_like(predictions)
+
+            for i in range(len(argmax)):
+                relevance_values[i, argmax[i]] = 1.
+                if target == 'max_output':
+                    relevance_values[i, argmax[i]] *= predictions[i, argmax[i]]
+
+        elif target is None:
+            relevance_values = self.relevance_function(X)
+        else:
+            relevance_values = target
+
+        return relevance_values.astype(X.dtype)

@@ -31,6 +31,9 @@ class TestCase(unittest.TestCase):
     def _method(self, output_layer):
         raise NotImplementedError("Set in subclass.")
 
+    def _assert(self, method, network, x, explanation):
+        pass
+
     def _apply_test(self, method, network):
         # Get explainer.
         explainer = method(network["out"])
@@ -39,6 +42,7 @@ class TestCase(unittest.TestCase):
         explanation = explainer.explain(x)
         self.assertEqual(tuple(explanation.shape[1:]),
                          tuple(network["input_shape"][1:]))
+        self._assert(method, network, x, explanation)
         pass
 
     def test_dryrun(self):

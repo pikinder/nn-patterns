@@ -13,8 +13,16 @@ import six
 from ...utils.tests import dryrun
 
 from ...explainer import LRPZExplainer
+from ...explainer import LRPEpsExplainer
+
 
 class TestLRPZExplainer(dryrun.TestCase):
 
     def _method(self, output_layer):
         return LRPZExplainer(output_layer)
+
+
+class TestLRPEpsExplainer(dryrun.TestCase):
+
+    def _method(self, output_layer):
+        return LRPEpsExplainer(output_layer)

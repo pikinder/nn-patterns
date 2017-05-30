@@ -26,7 +26,7 @@ from . import base
 
 __all__ = [
     "vgg16",
-    "vgg16_all_conv",
+    #"vgg16_all_conv",
 
     #"caffenet",
     #"googlenet",

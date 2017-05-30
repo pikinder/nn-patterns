@@ -10,6 +10,8 @@ import six
 # End: Python 2/3 compatability header small
 
 
+import fnmatch
+import os
 import theano.tensor as T
 
 from . import mnist
@@ -24,10 +26,20 @@ def iterator():
 
     default_nonlinearity = T.nnet.relu
 
+    # TODO: make this more transparent!
+    # Default test only for one network. To test all put "*"
+    name_filter = "mnist.cnn_2convb_2dense"
+    if "NNPATTERNS_TEST_FILTER" in os.environ:
+        name_filter = os.environ["NNPATTERNS_TEST_FILTER"]
+
     def fetch_networks(module_name, module):
-        ret = [("%s.%s" % (module_name, name),
-                getattr(module, name)(default_nonlinearity))
-               for name in module.__all__]
+        ret = [
+            ("%s.%s" % (module_name, name),
+             getattr(module, name)(default_nonlinearity))
+            for name in module.__all__
+            if (fnmatch.fnmatch(name, name_filter) or
+                fnmatch.fnmatch("%s.%s" % (module_name, name), name_filter))
+        ]
 
         for name, network in ret:
             network["name"] = name

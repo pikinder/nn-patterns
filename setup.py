@@ -17,7 +17,7 @@ def readme():
 
 def setup():
     setuptools.setup(
-        name="nn-patterns",
+        name="nn_patterns",
         version="0.1",
         description=("Implementation of PatternNet and PatternLRP:"
                      " https://arxiv.org/abs/1705.05598"),

@@ -23,7 +23,7 @@ class InputExplainer(BaseExplainer):
     def explain(self, X, target=None, **kwargs):
         return X
 
-    def _init_explain_function(self, patterns, **kwargs):
+    def _init_explain_function(self, patterns=None, **kwargs):
         pass
 
     def get_name(self):
@@ -38,7 +38,7 @@ class RandomExplainer(BaseExplainer):
     def explain(self, X, target=None, **kwargs):
         return np.random.randn(*X.shape)
 
-    def _init_explain_function(self, patterns, **kwargs):
+    def _init_explain_function(self, patterns=None, **kwargs):
         pass
 
     def get_name(self):

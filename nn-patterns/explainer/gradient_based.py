@@ -36,7 +36,7 @@ class GradientExplainer(BaseRelevanceExplainer):
     to get the gradient of the input with respect to the output.
     """
 
-    def _init_explain_function(self, patterns, **kwargs):
+    def _init_explain_function(self, patterns=None, **kwargs):
         with umisc.ignore_sigmoids(self.output_layer) as output_layer:
             Y = L.get_output(output_layer, deterministic=True)
         X = self.input_layer.input_var  # original
@@ -48,6 +48,7 @@ class GradientExplainer(BaseRelevanceExplainer):
     def explain(self, X, target=None, **kwargs):
         explanation = np.zeros_like(X)
         relevance_values = self._get_relevance_values(X, target)
+
         for i in range(relevance_values.shape[0]):
             for j in range(relevance_values.shape[1]):
                     if relevance_values[i, j] != 0:
@@ -63,7 +64,7 @@ class GradientExplainer(BaseRelevanceExplainer):
 
 class BaseDeConvNetExplainer(BaseInvertExplainer):
 
-    def _set_inverse_parameters(self, patterns):
+    def _set_inverse_parameters(self, patterns=None):
         for l in L.get_all_layers(self.output_layer):
             if type(l) is L.Conv2DLayer:
                 W = l.W.get_value()
@@ -73,8 +74,6 @@ class BaseDeConvNetExplainer(BaseInvertExplainer):
                 self.inverse_map[l].W.set_value(W)
             elif type(l) is L.DenseLayer:
                 self.inverse_map[l].W.set_value(l.W.get_value().T)
-            else:
-                raise NotImplementedError()
 
     def _put_rectifiers(self,input_layer,layer):
         raise RuntimeError("Needs to be implemented by the subclass.")

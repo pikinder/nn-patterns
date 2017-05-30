@@ -32,7 +32,7 @@ class PatternNetExplainer(BaseInvertExplainer):
     def _invert_LocalResponseNormalisation2DLayer(self, layer, feeder):
         return feeder
 
-    def _set_inverse_parameters(self, patterns):
+    def _set_inverse_parameters(self, patterns=None):
         self.trainable_layers = [self.inverse_map[l]
                                  for l in L.get_all_layers(self.output_layer)
                                  if type(l) in [L.Conv2DLayer, L.DenseLayer]]
@@ -46,6 +46,8 @@ class PatternNetExplainer(BaseInvertExplainer):
                 elif pattern.ndim == 2:
                     pattern = pattern.T
                 layer.W.set_value(pattern)
+        else:
+            print("Patterns not given, explanation is random.")
 
     def _put_rectifiers(self, input_layer, layer):
         return umisc.get_rectifier_copy_layer(input_layer, layer)
@@ -66,7 +68,7 @@ class GuidedPatternNetExplainer(PatternNetExplainer):
 
 class PatternLRPExplainer(PatternNetExplainer):
 
-    def _set_inverse_parameters(self, patterns):
+    def _set_inverse_parameters(self, patterns=None):
         self.trainable_layers = [(l, self.inverse_map[l])
                                  for l in L.get_all_layers(self.output_layer)
                                  if type(l) in [L.Conv2DLayer, L.DenseLayer]]
@@ -86,6 +88,8 @@ class PatternLRPExplainer(PatternNetExplainer):
                     pattern = param*pattern
                     pattern = pattern.T
                 layer[1].W.set_value(pattern)
+        else:
+            print("Patterns not given, explanation is random.")
 
     def show_as_rgb(self):
         return True

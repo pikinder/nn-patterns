@@ -51,10 +51,10 @@ class BaseExplainer(object):
         self.output_layer = layers[-1]
         self.input_layer = layers[0]
 
-        self._init_explain_function(patterns, **kwargs)
+        self._init_explain_function(patterns=patterns, **kwargs)
         pass
 
-    def _init_explain_function(self, patterns,**kwargs):
+    def _init_explain_function(self, patterns=None,**kwargs):
         raise NotImplementedError("Has to be implemented by the subclass")
 
     def explain(self, X, target=None, **kwargs):
@@ -110,11 +110,12 @@ class BaseInvertExplainer(BaseRelevanceExplainer):
     def _put_rectifiers(self, input_layer, layer):
         raise NotImplementedError("Subclass responsability")
 
-    def _set_inverse_parameters(self, patterns):
+    def _set_inverse_parameters(self, patterns=None):
         raise NotImplementedError("Subclass responsability")
 
     def _invert_UnknownLayer(self, layer, feeder):
-        raise NotImplementedError("Subclass responsability")
+        raise NotImplementedError("Subclass responsability. Layer type: %s" %
+                                  type(layer))
 
     def _invert_DenseLayer(self, layer, feeder):
         # Warning they are swapped here
@@ -298,7 +299,6 @@ class BaseInvertExplainer(BaseRelevanceExplainer):
         elif len(feeder) == 0:
             # It feeds nothing, so must be
             # output layer with restricted assumptions
-            print("Found the top layer")
             def nonlinearity(x):
                 return 0 * x + self.relevance_values
             feeder = L.NonlinearityLayer(layer,
@@ -352,22 +352,22 @@ class BaseInvertExplainer(BaseRelevanceExplainer):
         # Todo: should do this in a way that does not alter input.
         umisc.remove_sigmoids(self.output_layer)
                     
-    def _init_network(self, patterns, **kwargs):
+    def _init_network(self, patterns=None, **kwargs):
         self._remove_softmax()
         self.relevance_values = T.matrix()
         self._construct_layer_maps()
         tmp = self._invert_layer_recursion(self.input_layer, None)
         self.explain_output_layer = tmp
 
-        if patterns is not None:
-            self._set_inverse_parameters(patterns)
+        # Call in any case. Patterns are not always needed.
+        self._set_inverse_parameters(patterns=patterns)
         #print("\n\n\nNetwork")
         #for l in get_all_layers(self.explain_output_layer):
         #    print(type(l), get_output_shape(l))
         #print("\n\n\n")
 
-    def _init_explain_function(self, patterns, **kwargs):
-        self._init_network(patterns)
+    def _init_explain_function(self, patterns=None, **kwargs):
+        self._init_network(patterns=patterns)
         explanation = L.get_output(self.explain_output_layer,
                                    deterministic=True)
         self.explain_function = theano.function(

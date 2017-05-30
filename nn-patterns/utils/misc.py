@@ -82,31 +82,26 @@ class OppositeGuidedRelu(lasagne.layers.MergeLayer):
         return out
 
 
+def has_ReLU(layer):
+    relus = [lasagne.nonlinearities.rectify, T.nnet.relu]
+    return (hasattr(layer, 'nonlinearity') and
+            layer.nonlinearity in relus)
+
+
 def get_rectifier_copy_layer(input_layer, rectifier_layer):
-    """
-    Create for dense and convolutional layers a layer that guides the signal
-    through the rectifiers that were active in the forward pass
-    """
-    if(hasattr(rectifier_layer, 'nonlinearity') and
-       rectifier_layer.nonlinearity == rectify):
+    if has_ReLU(rectifier_layer):
         return GuidedReLU(input_layer, rectifier_layer)
     return input_layer
 
 
 def get_rectifier_opposite_layer(input_layer, rectifier_layer):
-    """
-    Create for dense and convolutional layers a layer that guides the signal
-    through the rectifiers that were active in the forward pass
-    """
-    if(hasattr(rectifier_layer, 'nonlinearity') and
-       rectifier_layer.nonlinearity == rectify):
+    if has_ReLU(rectifier_layer):
         return OppositeGuidedRelu(input_layer, rectifier_layer)
     return None
 
 
 def get_rectifier_layer(input_layer, rectifier_layer):
-    if(hasattr(rectifier_layer, 'nonlinearity') and
-       rectifier_layer.nonlinearity == rectify):
+    if has_ReLU(rectifier_layer):
         return lasagne.layers.NonlinearityLayer(input_layer,
                                                 nonlinearity=rectify)
     return input_layer

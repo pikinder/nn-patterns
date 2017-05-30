@@ -56,7 +56,7 @@ class LRPEpsExplainer(BaseInvertExplainer):
     def _put_rectifiers(self, input_layer, layer):
         return umisc.get_rectifier_copy_layer(input_layer,layer)
 
-    def _set_inverse_parameters(self, patterns):
+    def _set_inverse_parameters(self, patterns=None):
         for l in L.get_all_layers(self.output_layer):
             if type(l) is L.Conv2DLayer:
                 W = l.W.get_value()
@@ -66,8 +66,6 @@ class LRPEpsExplainer(BaseInvertExplainer):
                 self.inverse_map[l].W.set_value(W)
             elif type(l) is L.DenseLayer:
                 self.inverse_map[l].W.set_value(l.W.get_value().T)
-            else:
-                raise NotImplementedError()
 
     def _invert_LocalResponseNormalisation2DLayer(self, layer, feeder):
         return feeder

@@ -113,4 +113,4 @@ class AlternateGradientExplainer(BaseDeConvNetExplainer):
         return umisc.get_rectifier_copy_layer(input_layer, layer)
 
     def get_name(self):
-        return "Gradient.alt"
+        return "Gradient;alt"

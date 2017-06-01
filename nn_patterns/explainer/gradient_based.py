@@ -26,7 +26,7 @@ __all__ = [
     "BaseDeConvNetExplainer",
     "DeConvNetExplainer",
     "GuidedBackpropExplainer",
-    "AlternateGradientExplainer",
+    "AlternativGradientExplainer",
 ]
 
 
@@ -104,7 +104,7 @@ class GuidedBackpropExplainer(BaseDeConvNetExplainer):
         return "Guided BackProp"
 
 
-class AlternateGradientExplainer(BaseDeConvNetExplainer):
+class AlternativGradientExplainer(BaseDeConvNetExplainer):
 
     def _invert_LocalResponseNormalisation2DLayer(self, layer, feeder):
         return L.InverseLayer(feeder,layer)
@@ -113,4 +113,4 @@ class AlternateGradientExplainer(BaseDeConvNetExplainer):
         return umisc.get_rectifier_copy_layer(input_layer, layer)
 
     def get_name(self):
-        return "Gradient;alt"
+        return "alternative Gradient"

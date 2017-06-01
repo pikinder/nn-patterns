@@ -65,3 +65,21 @@ class ExplainerTestCase(BaseTestCase):
                          tuple(network["input_shape"][1:]))
         self._assert(method, network, x, explanation)
         pass
+
+
+class PatternComputerTestCase(BaseTestCase):
+
+    def _method(self, output_layer):
+        raise NotImplementedError("Set in subclass.")
+
+    def _assert(self, method, network, x, explanation):
+        pass
+
+    def _apply_test(self, method, network):
+        # Get explainer.
+        computer = method(network["out"])
+        # Dryrun.
+        x = np.random.rand(10, *(network["input_shape"][1:]))
+        patterns = computer.compute_patterns(x, 2)
+        self._assert(method, network, x, patterns)
+        pass

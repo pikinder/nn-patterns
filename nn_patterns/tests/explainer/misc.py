@@ -16,13 +16,13 @@ from ...explainer import InputExplainer
 from ...explainer import RandomExplainer
 
 
-class TestInputExplainer(dryrun.TestCase):
+class TestInputExplainer(dryrun.ExplainerTestCase):
 
     def _method(self, output_layer):
         return InputExplainer(output_layer)
 
 
-class TestRandomExplainer(dryrun.TestCase):
+class TestRandomExplainer(dryrun.ExplainerTestCase):
 
     def _method(self, output_layer):
         return RandomExplainer(output_layer)

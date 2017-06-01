@@ -19,7 +19,13 @@ import unittest
 from . import networks
 
 
-class TestCase(unittest.TestCase):
+__all__ = [
+    "BaseTestCase",
+    "ExplainerTestCase",
+]
+
+
+class BaseTestCase(unittest.TestCase):
     """
     A dryrun test on various networks for an explanation method.
 
@@ -27,6 +33,21 @@ class TestCase(unittest.TestCase):
     has the right output shape, can be compiled
     and executed with random inputs.
     """
+
+    def _apply_test(self, method, network):
+        raise NotImplementedError("Set in subclass.")
+
+    def test_dryrun(self):
+        for network in networks.iterator():
+            if six.PY2:
+                self._apply_test(self._method, network)
+            else:
+                with self.subTest(network_name=network["name"]):
+                    self._apply_test(self._method, network)
+        pass
+
+
+class ExplainerTestCase(BaseTestCase):
 
     def _method(self, output_layer):
         raise NotImplementedError("Set in subclass.")
@@ -43,13 +64,4 @@ class TestCase(unittest.TestCase):
         self.assertEqual(tuple(explanation.shape[1:]),
                          tuple(network["input_shape"][1:]))
         self._assert(method, network, x, explanation)
-        pass
-
-    def test_dryrun(self):
-        for network in networks.iterator():
-            if six.PY2:
-                self._apply_test(self._method, network)
-            else:
-                with self.subTest(network_name=network["name"]):
-                    self._apply_test(self._method, network)
         pass

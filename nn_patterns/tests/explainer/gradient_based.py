@@ -18,25 +18,25 @@ from ...explainer import GuidedBackpropExplainer
 from ...explainer import AlternativGradientExplainer
 
 
-class TestGradientExplainer(dryrun.TestCase):
+class TestGradientExplainer(dryrun.ExplainerTestCase):
 
     def _method(self, output_layer):
         return GradientExplainer(output_layer)
 
 
-class TestDeConvNetExplainer(dryrun.TestCase):
+class TestDeConvNetExplainer(dryrun.ExplainerTestCase):
 
     def _method(self, output_layer):
         return DeConvNetExplainer(output_layer)
 
 
-class TestGuidedBackpropExplainer(dryrun.TestCase):
+class TestGuidedBackpropExplainer(dryrun.ExplainerTestCase):
 
     def _method(self, output_layer):
         return GuidedBackpropExplainer(output_layer)
 
 
-class TestAlternativGradientExplainer(dryrun.TestCase):
+class TestAlternativGradientExplainer(dryrun.ExplainerTestCase):
 
     def _method(self, output_layer):
         return AlternativGradientExplainer(output_layer)

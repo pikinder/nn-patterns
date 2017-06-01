@@ -17,17 +17,17 @@ from ...explainer import GuidedPatternNetExplainer
 from ...explainer import PatternLRPExplainer
 
 
-class TestPatterNetExplainer(dryrun.TestCase):
+class TestPatterNetExplainer(dryrun.ExplainerTestCase):
 
     def _method(self, output_layer):
         return PatternNetExplainer(output_layer)
 
-class TestGuidedPatterNetExplainer(dryrun.TestCase):
+class TestGuidedPatterNetExplainer(dryrun.ExplainerTestCase):
 
     def _method(self, output_layer):
         return GuidedPatternNetExplainer(output_layer)
 
-class TestPatterLRPExplainer(dryrun.TestCase):
+class TestPatterLRPExplainer(dryrun.ExplainerTestCase):
 
     def _method(self, output_layer):
         return PatternLRPExplainer(output_layer)

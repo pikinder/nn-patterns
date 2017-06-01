@@ -14,7 +14,7 @@ from ...utils.tests import dryrun
 from ...explainer import RandomExplainer
 
 
-class TestRandomExplainer(dryrun.TestCase):
+class TestRandomExplainer(dryrun.ExplainerTestCase):
 
     def _method(self, output_layer):
         return RandomExplainer(output_layer)

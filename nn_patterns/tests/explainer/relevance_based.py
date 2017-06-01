@@ -16,13 +16,13 @@ from ...explainer import LRPZExplainer
 from ...explainer import LRPEpsExplainer
 
 
-class TestLRPZExplainer(dryrun.TestCase):
+class TestLRPZExplainer(dryrun.ExplainerTestCase):
 
     def _method(self, output_layer):
         return LRPZExplainer(output_layer)
 
 
-class TestLRPEpsExplainer(dryrun.TestCase):
+class TestLRPEpsExplainer(dryrun.ExplainerTestCase):
 
     def _method(self, output_layer):
         return LRPEpsExplainer(output_layer)

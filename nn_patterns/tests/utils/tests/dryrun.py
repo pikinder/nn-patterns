@@ -13,7 +13,7 @@ import six
 from ....utils.tests import dryrun
 
 
-class TestDryRunTestCase(dryrun.TestCase):
+class TestDryRunExplainerTestCase(dryrun.ExplainerTestCase):
     """
     Sanity test for the TestCase.
     """

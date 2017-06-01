@@ -18,7 +18,7 @@ from ...explainer import GradientExplainer
 from ...explainer import AlternativGradientExplainer
 
 
-class TestInversion(dryrun.TestCase):
+class TestInversion(dryrun.ExplainerTestCase):
 
     def _method(self, output_layer):
         return GradientExplainer(output_layer)

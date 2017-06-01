@@ -12,7 +12,7 @@ def create_explainer(name,
     return {
         # Gradient based
         "gradient": GradientExplainer,
-        "gradient.alt": AlternateGradientExplainer,
+        "gradient.alt": AlternativGradientExplainer,
         "deconvnet": DeConvNetExplainer,
         "guided": GuidedBackpropExplainer,
 

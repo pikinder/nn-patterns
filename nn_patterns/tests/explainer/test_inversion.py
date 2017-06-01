@@ -15,7 +15,7 @@ import numpy as np
 from ...utils.tests import dryrun
 
 from ...explainer import GradientExplainer
-from ...explainer import AlternateGradientExplainer
+from ...explainer import AlternativGradientExplainer
 
 
 class TestInversion(dryrun.TestCase):
@@ -26,7 +26,7 @@ class TestInversion(dryrun.TestCase):
     def _assert(self, method, network, x, explanation):
         # Test if Theano gradient is close to the inverted gradient.
         # This tests that we inverted the network in the correct way.
-        explainer_alt = AlternateGradientExplainer(network["out"])
+        explainer_alt = AlternativGradientExplainer(network["out"])
         explanation_alt = explainer_alt.explain(x)
 
         np.testing.assert_allclose(explanation, explanation_alt)

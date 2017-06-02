@@ -24,4 +24,4 @@ def create_explainer(name,
         "patternnet": PatternNetExplainer,
         "patternnet.guided": PatternNetExplainer,
         "patternlrp": PatternLRPExplainer,
-    }[name](output_layer, patterns=None, to_layer=None, **kwargs)
+    }[name](output_layer, patterns=patterns, to_layer=to_layer, **kwargs)

@@ -43,7 +43,7 @@ class LRPZExplainer(GradientExplainer):
 
 class LRPEpsExplainer(BaseInvertExplainer):
 
-    def __init__(self, *args, epsilon=0.00000000001, **kwargs):
+    def __init__(self, epsilon=0.00000000001, *args, **kwargs):
         self.epsilon = epsilon
         super(LRPEpsExplainer, self).__init__(*args, **kwargs)
 

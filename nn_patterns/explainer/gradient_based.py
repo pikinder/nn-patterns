@@ -26,11 +26,11 @@ __all__ = [
     "BaseDeConvNetExplainer",
     "DeConvNetExplainer",
     "GuidedBackpropExplainer",
-    "AlternativGradientExplainer",
+    "AlternativeGradientExplainer",
 ]
 
 
-class GradientExplainer(BaseRelevanceExplainer):
+class AlternativeGradientExplainer(BaseRelevanceExplainer):
     """
     Explainer that uses automatic differentiation
     to get the gradient of the input with respect to the output.
@@ -104,7 +104,7 @@ class GuidedBackpropExplainer(BaseDeConvNetExplainer):
         return "Guided BackProp"
 
 
-class AlternativGradientExplainer(BaseDeConvNetExplainer):
+class GradientExplainer(BaseDeConvNetExplainer):
 
     def _invert_LocalResponseNormalisation2DLayer(self, layer, feeder):
         return L.InverseLayer(feeder,layer)

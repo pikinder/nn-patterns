@@ -15,7 +15,7 @@ from ...utils.tests import dryrun
 from ...explainer import GradientExplainer
 from ...explainer import DeConvNetExplainer
 from ...explainer import GuidedBackpropExplainer
-from ...explainer import AlternativGradientExplainer
+from ...explainer import AlternativeGradientExplainer
 
 
 class TestGradientExplainer(dryrun.ExplainerTestCase):
@@ -36,7 +36,7 @@ class TestGuidedBackpropExplainer(dryrun.ExplainerTestCase):
         return GuidedBackpropExplainer(output_layer)
 
 
-class TestAlternativGradientExplainer(dryrun.ExplainerTestCase):
+class TestAlternativeGradientExplainer(dryrun.ExplainerTestCase):
 
     def _method(self, output_layer):
-        return AlternativGradientExplainer(output_layer)
+        return AlternativeGradientExplainer(output_layer)

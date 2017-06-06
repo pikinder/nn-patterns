@@ -46,15 +46,20 @@ def vgg16(nonlinearity):
     net["in"] = base.input_layer(shape=input_shape)
 
     net.update(base.conv_pool(net["in"], 2, "conv_1", 64,
-                              nonlinearity=nonlinearity))
+                              nonlinearity=nonlinearity,
+                              flip_filters=False))
     net.update(base.conv_pool(net["conv_1_pool"], 2, "conv_2", 128,
-                              nonlinearity=nonlinearity))
+                              nonlinearity=nonlinearity,
+                              flip_filters=False))
     net.update(base.conv_pool(net["conv_2_pool"], 3, "conv_3", 256,
-                              nonlinearity=nonlinearity))
+                              nonlinearity=nonlinearity,
+                              flip_filters=False))
     net.update(base.conv_pool(net["conv_3_pool"], 3, "conv_4", 512,
-                              nonlinearity=nonlinearity))
+                              nonlinearity=nonlinearity,
+                              flip_filters=False))
     net.update(base.conv_pool(net["conv_4_pool"], 3, "conv_5", 512,
-                              nonlinearity=nonlinearity))
+                              nonlinearity=nonlinearity,
+                              flip_filters=False))
     
     net["dense_1"] = base.dense_layer(net["conv_5_pool"], num_units=4096,
                                       nonlinearity=nonlinearity,
@@ -85,15 +90,15 @@ def vgg16_all_conv(nonlinearity):
     net["in"] = base.input_layer(shape=input_shape)
 
     net.update(base.conv_pool(net["in"], 2, "conv_1", 64,
-                              nonlinearity=nonlinearity))
+                              nonlinearity=nonlinearity, flip_filters=False))
     net.update(base.conv_pool(net["conv_1_pool"], 2, "conv_2", 128,
-                              nonlinearity=nonlinearity))
+                              nonlinearity=nonlinearity, flip_filters=False))
     net.update(base.conv_pool(net["conv_2_pool"], 3, "conv_3", 256,
-                              nonlinearity=nonlinearity))
+                              nonlinearity=nonlinearity, flip_filters=False))
     net.update(base.conv_pool(net["conv_3_pool"], 3, "conv_4", 512,
-                              nonlinearity=nonlinearity))
+                              nonlinearity=nonlinearity, flip_filters=False))
     net.update(base.conv_pool(net["conv_4_pool"], 3, "conv_5", 512,
-                              nonlinearity=nonlinearity))
+                              nonlinearity=nonlinearity, flip_filters=False))
     
     net["dense_1"] = base.conv_layer(net["conv_5_pool"],
                                      4096, 7, pad="valid",

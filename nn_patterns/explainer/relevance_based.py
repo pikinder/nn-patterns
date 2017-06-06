@@ -29,7 +29,7 @@ __all__ = [
 
 class LRPZExplainer(GradientExplainer):
 
-    def explain(self, X, target=None, **kwargs):
+    def explain(self, X, target="max_output", **kwargs):
         return X * super(LRPZExplainer, self).explain(X,
                                                       target=target,
                                                       **kwargs)
@@ -43,7 +43,12 @@ class LRPZExplainer(GradientExplainer):
 
 class LRPEpsExplainer(BaseInvertExplainer):
 
-    def __init__(self, epsilon=0.00000000001, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
+        # Workaround for python 2 and 3.
+        epsilon = kwargs.get("epsilon", 0.00000000001)
+        if epsilon in kwargs:
+            del kwargs["epsilon"]
+
         self.epsilon = epsilon
         super(LRPEpsExplainer, self).__init__(*args, **kwargs)
 

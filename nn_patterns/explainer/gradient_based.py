@@ -45,9 +45,9 @@ class GradientExplainer(BaseRelevanceExplainer):
         E = T.grad(Y[S].flatten()[I], X)
         self.grad_function = theano.function(inputs=[X, S, I], outputs=E)
 
-    def explain(self, X, target=None, **kwargs):
+    def explain(self, X, target="max_output", **kwargs):
         explanation = np.zeros_like(X)
-        relevance_values = self._get_relevance_values(X, target)
+        relevance_values = self._get_relevance_values(X, target=target)
 
         for i in range(relevance_values.shape[0]):
             for j in range(relevance_values.shape[1]):

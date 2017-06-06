@@ -32,24 +32,13 @@ def __check_cpu_flaw__():
 
 class BaseExplainer(object):
 
-    def __init__(self, output_layer, patterns=None, to_layer=None, **kwargs):
+    def __init__(self, output_layer, patterns=None, **kwargs):
         __check_cpu_flaw__()
 
-        self.original_output_layer = output_layer
-        self.to_layer = to_layer
-
         layers = L.get_all_layers(output_layer)
-        layers = layers[:self.to_layer]
-        if self.to_layer != None:
-            # Mid layer, flatten to not have troubles.
-            # Todo: this is strange. Will not forward non-linearties.
-            # See ignore_sigmoids.
-            # Maybe remove.
-            layers.append(L.FlattenLayer(layers[-1]))
-
         self.layers = layers
-        self.output_layer = layers[-1]
         self.input_layer = layers[0]
+        self.output_layer = layers[-1]
 
         self._init_explain_function(patterns=patterns, **kwargs)
         pass
@@ -57,7 +46,7 @@ class BaseExplainer(object):
     def _init_explain_function(self, patterns=None,**kwargs):
         raise NotImplementedError("Has to be implemented by the subclass")
 
-    def explain(self, X, target=None, **kwargs):
+    def explain(self, X, target="max_output", **kwargs):
         raise NotImplementedError("Has to be implemented by the subclass")
 
     def get_name(self):
@@ -83,8 +72,8 @@ class BaseRelevanceExplainer(BaseExplainer):
             inputs=[self.input_layer.input_var], outputs=output)
         pass
 
-    def _get_relevance_values(self, X, target):
-        if target == 'max_output' or target == 'max_output_as_one':
+    def _get_relevance_values(self, X, target="max_output"):
+        if target == "max_output":
             predictions = self.relevance_function(X)
             argmax = predictions.argmax(axis=1)
             relevance_values = np.zeros_like(predictions)
@@ -98,7 +87,6 @@ class BaseRelevanceExplainer(BaseExplainer):
             relevance_values = self.relevance_function(X)
         else:
             relevance_values = target
-
         return relevance_values.astype(X.dtype)
 
 
@@ -374,6 +362,6 @@ class BaseInvertExplainer(BaseRelevanceExplainer):
             inputs=[self.input_layer.input_var, self.relevance_values],
             outputs=explanation)
 
-    def explain(self, X, target=None, **kwargs):
+    def explain(self, X, target="max_output", **kwargs):
         relevance_values = self._get_relevance_values(X, target)
         return self.explain_function(X, relevance_values.astype(X.dtype))

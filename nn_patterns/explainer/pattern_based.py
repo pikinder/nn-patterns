@@ -92,4 +92,4 @@ class PatternLRPExplainer(PatternNetExplainer):
             print("Patterns not given, explanation is random.")
 
     def show_as_rgb(self):
-        return True
+        return False

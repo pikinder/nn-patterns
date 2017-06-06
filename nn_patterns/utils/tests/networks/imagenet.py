@@ -38,7 +38,10 @@ __all__ = [
 ###############################################################################
 
 
-def vgg16(nonlinearity):
+def vgg16(nonlinearity=None):
+    if nonlinearity is None:
+        nonlinearity = lasagne.nonlinearities.rectify
+
     input_shape = [None, 3, 224, 224]
     output_n = 1000
     
@@ -82,7 +85,10 @@ def vgg16(nonlinearity):
     return net
 
 
-def vgg16_all_conv(nonlinearity):
+def vgg16_all_conv(nonlinearity=None):
+    if nonlinearity is None:
+        nonlinearity = lasagne.nonlinearities.rectify
+
     input_shape = [None, 3, 256, 256]
     output_n = 1000
     

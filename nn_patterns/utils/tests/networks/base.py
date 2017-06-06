@@ -76,7 +76,10 @@ def dropout_layer(*args, **kwargs):
 ###############################################################################
 
 
-def log_reg(input_shape, output_n, nonlinearity):
+def log_reg(input_shape, output_n, nonlinearity=None):
+    if nonlinearity is None:
+        nonlinearity = lasagne.nonlinearities.rectify
+
     net = {}
     net["in"] = input_layer(shape=input_shape)
     net["out"] = dense_layer(net["in"], num_units=output_n,
@@ -97,8 +100,11 @@ def log_reg(input_shape, output_n, nonlinearity):
 ###############################################################################
 
 
-def mlp_1dense(input_shape, output_n, nonlinearity,
+def mlp_1dense(input_shape, output_n, nonlinearity=None,
                dense_units=512, dropout_rate=0.25):
+    if nonlinearity is None:
+        nonlinearity = lasagne.nonlinearities.rectify
+
     net = {}
     net["in"] = input_layer(shape=input_shape)
     net["dense_1"] = dense_layer(net["in"], num_units=dense_units,
@@ -118,8 +124,11 @@ def mlp_1dense(input_shape, output_n, nonlinearity,
     return net
 
 
-def mlp_2dense(input_shape, output_n, nonlinearity,
+def mlp_2dense(input_shape, output_n, nonlinearity=None,
                dense_units=512, dropout_rate=0.25):
+    if nonlinearity is None:
+        nonlinearity = lasagne.nonlinearities.rectify
+
     net = {}
     net["in"] = input_layer(shape=input_shape)
     net["dense_1"] = dense_layer(net["in"], num_units=dense_units,
@@ -148,8 +157,11 @@ def mlp_2dense(input_shape, output_n, nonlinearity,
 ###############################################################################
 
 
-def cnn_1convb_1dense(input_shape, output_n, nonlinearity,
+def cnn_1convb_1dense(input_shape, output_n, nonlinearity=None,
                       dense_units=512, dropout_rate=0.25):
+    if nonlinearity is None:
+        nonlinearity = lasagne.nonlinearities.rectify
+
     net = {}
     net["in"] = input_layer(shape=input_shape)
     net.update(conv_pool(net["in"], 2, "conv_1", 128,
@@ -171,8 +183,11 @@ def cnn_1convb_1dense(input_shape, output_n, nonlinearity,
     return net
 
 
-def cnn_2convb_1dense(input_shape, output_n, nonlinearity,
+def cnn_2convb_1dense(input_shape, output_n, nonlinearity=None,
                       dense_units=512, dropout_rate=0.25):
+    if nonlinearity is None:
+        nonlinearity = lasagne.nonlinearities.rectify
+
     net = {}
     net["in"] = input_layer(shape=input_shape)
     net.update(conv_pool(net["in"], 2, "conv_1", 128,
@@ -196,8 +211,11 @@ def cnn_2convb_1dense(input_shape, output_n, nonlinearity,
     return net
 
 
-def cnn_2convb_2dense(input_shape, output_n, nonlinearity,
+def cnn_2convb_2dense(input_shape, output_n, nonlinearity=None,
                       dense_units=512, dropout_rate=0.25):
+    if nonlinearity is None:
+        nonlinearity = lasagne.nonlinearities.rectify
+
     net = {}
     net["in"] = input_layer(shape=input_shape)
     net.update(conv_pool(net["in"], 2, "conv_1", 128,
@@ -225,8 +243,11 @@ def cnn_2convb_2dense(input_shape, output_n, nonlinearity,
     return net
 
 
-def cnn_3convb_2dense(input_shape, output_n, nonlinearity,
+def cnn_3convb_2dense(input_shape, output_n, nonlinearity=None,
                       dense_units=512, dropout_rate=0.25):
+    if nonlinearity is None:
+        nonlinearity = lasagne.nonlinearities.rectify
+
     net = {}
     net["in"] = input_layer(shape=input_shape)
     net.update(conv_pool(net["in"], 2, "conv_1", 128,

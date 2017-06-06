@@ -45,8 +45,9 @@ __output_n__ = 10
 ###############################################################################
 
 
-def log_reg(nonlinearity):
-    return base.log_reg(__input_shape__, __output_n__, nonlinearity)
+def log_reg(nonlinearity=None):
+    return base.log_reg(__input_shape__, __output_n__,
+                        nonlinearity=nonlinearity)
 
 
 ###############################################################################
@@ -54,13 +55,15 @@ def log_reg(nonlinearity):
 ###############################################################################
 
 
-def mlp_1dense(nonlinearity):
-    return base.mlp_1dense(__input_shape__, __output_n__, nonlinearity,
+def mlp_1dense(nonlinearity=None):
+    return base.mlp_1dense(__input_shape__, __output_n__,
+                           nonlinearity=nonlinearity,
                            dense_units=512, dropout_rate=0.25)
 
 
-def mlp_2dense(nonlinearity):
-    return base.mlp_2dense(__input_shape__, __output_n__, nonlinearity,
+def mlp_2dense(nonlinearity=None):
+    return base.mlp_2dense(__input_shape__, __output_n__,
+                           nonlinearity=nonlinearity,
                            dense_units=512, dropout_rate=0.25)
 
 
@@ -69,21 +72,25 @@ def mlp_2dense(nonlinearity):
 ###############################################################################
 
 
-def cnn_1convb_1dense(nonlinearity):
-    return base.cnn_1convb_1dense(__input_shape__, __output_n__, nonlinearity,
+def cnn_1convb_1dense(nonlinearity=None):
+    return base.cnn_1convb_1dense(__input_shape__, __output_n__,
+                                  nonlinearity=nonlinearity,
                                   dense_units=512, dropout_rate=0.25)
 
 
-def cnn_2convb_1dense(nonlinearity):
-    return base.cnn_2convb_1dense(__input_shape__, __output_n__, nonlinearity,
+def cnn_2convb_1dense(nonlinearity=None):
+    return base.cnn_2convb_1dense(__input_shape__, __output_n__,
+                                  nonlinearity=nonlinearity,
                                   dense_units=512, dropout_rate=0.25)
 
 
-def cnn_2convb_2dense(nonlinearity):
-    return base.cnn_2convb_2dense(__input_shape__, __output_n__, nonlinearity,
+def cnn_2convb_2dense(nonlinearity=None):
+    return base.cnn_2convb_2dense(__input_shape__, __output_n__,
+                                  nonlinearity=nonlinearity,
                                   dense_units=512, dropout_rate=0.25)
 
 
-def cnn_3convb_2dense(nonlinearity):
-    return base.cnn_3convb_2dense(__input_shape__, __output_n__, nonlinearity,
+def cnn_3convb_2dense(nonlinearity=None):
+    return base.cnn_3convb_2dense(__input_shape__, __output_n__,
+                                  nonlinearity=nonlinearity,
                                   dense_units=512, dropout_rate=0.25)

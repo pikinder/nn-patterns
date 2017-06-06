@@ -24,8 +24,6 @@ def iterator():
     Iterator over various networks.
     """
 
-    default_nonlinearity = T.nnet.relu
-
     # TODO: make this more transparent!
     # Default test only for one network. To test all put "*"
     name_filter = "mnist.cnn_2convb_2dense"
@@ -35,7 +33,7 @@ def iterator():
     def fetch_networks(module_name, module):
         ret = [
             ("%s.%s" % (module_name, name),
-             getattr(module, name)(default_nonlinearity))
+             getattr(module, name)())
             for name in module.__all__
             if (fnmatch.fnmatch(name, name_filter) or
                 fnmatch.fnmatch("%s.%s" % (module_name, name), name_filter))

@@ -13,7 +13,20 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import PIL.Image
+import shutil
 
+
+###############################################################################
+# Download utilities
+###############################################################################
+
+
+def download(url, filename):
+    if not os.path.exists(filename):
+        print("Download: %s ---> %s" % (url, filename))
+        with six.moves.urllib.request.urlopen(url) as response:
+            with open(filename, 'wb') as out_file:
+                shutil.copyfileobj(response, out_file)
 
 ###############################################################################
 # VGG16 utility functions

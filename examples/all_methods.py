@@ -7,8 +7,8 @@ import numpy as np
 import os
 
 import nn_patterns
+import nn_patterns.utils.fileio
 import nn_patterns.utils.tests.networks.imagenet
-import lasagne.nonlinearities
 import lasagne
 import theano
 
@@ -16,18 +16,16 @@ import imp
 base_dir = os.path.dirname(__file__)
 eutils = imp.load_source("utils", os.path.join(base_dir, "utils.py"))
 
-import pickle
-def load(filename):
-    f = np.load(filename)
-    ret = [f["arr_%i" % i] for i in range(len(f.keys()))]
-    return ret
+param_file = "./imagenet_224_vgg_16.npz"
+param_url = "https://www.dropbox.com/s/cvjj8x19hzya9oe/imagenet_224_vgg_16.npz?dl=1"
 
-def loadp(filename):
-    f = np.load(filename)
-    ret = {"A": [f["A_%i" % i] for i in range(16)]}
-    return ret
+pattern_file = "./imagenet_224_vgg_16.pattern_file.A_only.npz"
+pattern_url = "https://www.dropbox.com/s/v7e0px44jqwef5k/imagenet_224_vgg_16.patterns.A_only.npz?dl=1"
 
 if __name__ == "__main__":
+    eutils.download(param_url, param_file)
+    eutils.download(pattern_url, pattern_file)
+
     images, label_to_class_name = eutils.get_imagenet_data()
 
     target = "max_output"
@@ -56,9 +54,8 @@ if __name__ == "__main__":
     ###########################################################################
     # Build model.
     ###########################################################################
-    parameters = load("/home/bbdc/tmp/imagenet_224_vgg_16.npz")
-    rectify = lasagne.nonlinearities.rectify
-    vgg16 = nn_patterns.utils.tests.networks.imagenet.vgg16(rectify)
+    parameters = nn_patterns.utils.fileio.load_parameters(param_file)
+    vgg16 = nn_patterns.utils.tests.networks.imagenet.vgg16()
     lasagne.layers.set_all_param_values(vgg16["out"], parameters)
 
     # Create prediction model.
@@ -71,7 +68,7 @@ if __name__ == "__main__":
     # Explanations.
     ###########################################################################
     # Create explainers.
-    patterns = loadp("/home/bbdc/tmp/imagenet_224_vgg_16.patterns.npz")
+    patterns = nn_patterns.utils.fileio.load_patterns(pattern_file)
     explainers = {}
     for method in methods:
         explainers[method] = nn_patterns.create_explainer(method,

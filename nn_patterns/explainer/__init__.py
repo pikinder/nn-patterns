@@ -10,6 +10,10 @@ from .relevance_based import *
 def create_explainer(name,
                      output_layer, patterns=None, to_layer=None, **kwargs):
     return {
+        # Utility.
+        "input": InputExplainer,
+        "random": RandomExplainer,
+
         # Gradient based
         "gradient": GradientExplainer,
         "deconvnet": DeConvNetExplainer,

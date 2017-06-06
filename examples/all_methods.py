@@ -17,18 +17,24 @@ base_dir = os.path.dirname(__file__)
 eutils = imp.load_source("utils", os.path.join(base_dir, "utils.py"))
 
 param_file = "./imagenet_224_vgg_16.npz"
+# Note those weights are CC 4.0:
+# See http://www.robots.ox.ac.uk/~vgg/research/very_deep/
 param_url = "https://www.dropbox.com/s/cvjj8x19hzya9oe/imagenet_224_vgg_16.npz?dl=1"
 
 pattern_file = "./imagenet_224_vgg_16.pattern_file.A_only.npz"
 pattern_url = "https://www.dropbox.com/s/v7e0px44jqwef5k/imagenet_224_vgg_16.patterns.A_only.npz?dl=1"
 
 if __name__ == "__main__":
+    # Download the necessary parameters for VGG16 and the according patterns.
     eutils.download(param_url, param_file)
     eutils.download(pattern_url, pattern_file)
 
+    # Get some example test set images.
     images, label_to_class_name = eutils.get_imagenet_data()
 
+    # We want to explain the output neuron with the maximal activation.
     target = "max_output"
+    # Methods we use and some properties.
     methods = {
         # NAME         POSTPROCESSING          TITLE              (GROUP)INDEX
 

@@ -50,7 +50,7 @@ import nn_patterns
 output_layer = create_a_lasagne_network()
 pattern = load_pattern()
 
-explainer = nn_patterns.create_explainer("patternnet", output_layer, pattern=pattern)
+explainer = nn_patterns.create_explainer("patternnet", output_layer, patterns=patterns)
 ```
 
 and explain the influence of the neural networks input on the output neuron by:

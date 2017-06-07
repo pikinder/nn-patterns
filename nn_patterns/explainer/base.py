@@ -73,16 +73,26 @@ class BaseRelevanceExplainer(BaseExplainer):
         pass
 
     def _get_relevance_values(self, X, target="max_output"):
-        if target == "max_output":
+        def checkint(x):
+            try:
+                int(x)
+            except:
+                return False
+            return True
+
+        isint = checkint(target)
+        if target == "max_output" or isint is True:
             predictions = self.relevance_function(X)
-            argmax = predictions.argmax(axis=1)
             relevance_values = np.zeros_like(predictions)
+            argmax = predictions.argmax(axis=1)
 
             for i in range(len(argmax)):
-                relevance_values[i, argmax[i]] = 1.
-                if target == 'max_output':
-                    relevance_values[i, argmax[i]] *= predictions[i, argmax[i]]
+                if isint is True:
+                    idx = int(target)
+                else:
+                    idx = argmax[i]
 
+                relevance_values[i, idx] = predictions[i, idx]
         elif target is None:
             relevance_values = self.relevance_function(X)
         else:

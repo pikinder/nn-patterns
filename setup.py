@@ -3,9 +3,14 @@ import setuptools
 
 
 requirements = [
+    "fnmatch",
+    "future",
+    "six",
+
     "numpy",
     "scipy",
     "lasagne",
+    "theano",
 ]
 
 

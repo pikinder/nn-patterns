@@ -8,7 +8,7 @@ from .relevance_based import *
 
 
 def create_explainer(name,
-                     output_layer, patterns=None, to_layer=None, **kwargs):
+                     output_layer, patterns=None, **kwargs):
     return {
         # Utility.
         "input": InputExplainer,
@@ -28,4 +28,4 @@ def create_explainer(name,
         "patternnet": PatternNetExplainer,
         "patternnet.guided": GuidedPatternNetExplainer,
         "patternlrp": PatternLRPExplainer,
-    }[name](output_layer, patterns=patterns, to_layer=to_layer, **kwargs)
+    }[name](output_layer, patterns=patterns, **kwargs)

@@ -1,3 +1,7 @@
+# *************************************
+# This code is outdated, please find a new version here: [iNNvestigate](https://github.com/albermax/innvestigate)
+# *************************************
+
 # PatternNet, PatternLRP and more
 
 
